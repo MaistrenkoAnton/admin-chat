@@ -6,7 +6,11 @@ from users.managers import UserManager
 
 
 class User(AbstractUser):
-    username = None
+    """
+    Extends Abstract User model with additional fields.
+    Makes authentication with email and password fields.
+    """
+    username = models.CharField(_('Username'), max_length=150)
     email = models.EmailField(_('Email'), unique=True)
 
     USERNAME_FIELD = 'email'
