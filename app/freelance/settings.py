@@ -37,7 +37,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'material.admin',
-    'django.contrib.admin',
+    'material.admin.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
