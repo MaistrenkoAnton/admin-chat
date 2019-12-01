@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'material.admin',
-    'django.contrib.admin',
+    'material.admin.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

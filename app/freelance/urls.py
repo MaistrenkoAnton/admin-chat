@@ -21,10 +21,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
 from django.contrib.staticfiles.templatetags.staticfiles import static as staticfiles
 from django.contrib.auth import views as auth_views
+from django.contrib import admin
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-from material.admin.sites import site
+from material.admin.sites import MaterialAdminSite as site
 from rest_framework import permissions
 
 from users.views import PasswordResetConfirmView
@@ -60,7 +61,7 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ] + i18n_patterns(
-    path('admin/', include('material.admin.urls'), name='admin'),
+    path('admin/', admin.site.urls, name='admin'),
     path('admin/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset'),
     path('admin/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('admin/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(),

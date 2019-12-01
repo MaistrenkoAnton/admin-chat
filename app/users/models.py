@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -10,6 +12,7 @@ class User(AbstractUser):
     Extends Abstract User model with additional fields.
     Makes authentication with email and password fields.
     """
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     username = models.CharField(_('Username'), max_length=150)
     email = models.EmailField(_('Email'), unique=True)
 
