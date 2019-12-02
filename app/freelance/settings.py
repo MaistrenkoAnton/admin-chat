@@ -37,7 +37,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'material.admin',
-    'django.contrib.admin',
+    'material.admin.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -72,6 +72,26 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+}
+
+MATERIAL_ADMIN_SITE = {
+    'HEADER':  _('Administration'),
+    'TITLE':  _('Marketplace'),
+    'FAVICON':  'admin/favicon.ico',
+    'MAIN_BG_COLOR':  '#41adda',
+    'MAIN_HOVER_COLOR':  '#969999',
+    'PROFILE_PICTURE':  'admin/logo.jpg',
+    'PROFILE_BG':  'admin/profile_bg.png',
+    'LOGIN_LOGO':  'admin/logo.jpg',
+    'LOGOUT_BG':  'admin/logout_bg.png',
+    'APP_ICONS': {
+        'authtoken': 'vpn_key',
+        'account': 'account_box',
+    },
+    'MODEL_ICONS': {
+        'token': 'vpn_key',
+        'emailaddress': 'email',
+    }
 }
 
 
@@ -143,11 +163,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY and AWS_STORAGE_BUCKET_NAME:
+    AWS_DEFAULT_ACL = None
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'eu-central-1')
+    STATIC_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    STATICFILES_STORAGE = 'utils.storage_backends.StaticStorage'
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'utils.storage_backends.PublicMediaStorage'
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 
 REDIS_HOST = os.getenv('REDIS_HOST', 'freelance_redis')
 CELERY_BROKER_URL = 'redis://%s:6379' % REDIS_HOST
