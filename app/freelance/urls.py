@@ -42,8 +42,6 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ] + i18n_patterns(
     path('admin/', admin.site.urls, name='admin'),
@@ -51,6 +49,8 @@ urlpatterns = [
     path('admin/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('admin/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('', RedirectView.as_view(url='admin/', permanent=False), name='home'),
     prefix_default_language=False
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(

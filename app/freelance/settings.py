@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth.registration',
@@ -87,10 +88,14 @@ MATERIAL_ADMIN_SITE = {
     'APP_ICONS': {
         'authtoken': 'vpn_key',
         'account': 'account_box',
+        'socialaccount': 'touch_app'
     },
     'MODEL_ICONS': {
         'token': 'vpn_key',
         'emailaddress': 'email',
+        'socialaccount': 'device_hub',
+        'socialtoken': 'vpn_key',
+        'socialapp': 'settings_applications',
     }
 }
 
@@ -98,6 +103,7 @@ MATERIAL_ADMIN_SITE = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
