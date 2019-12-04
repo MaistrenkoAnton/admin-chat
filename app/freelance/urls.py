@@ -17,29 +17,15 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
-from django.contrib.staticfiles.templatetags.staticfiles import static as staticfiles
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-from material.admin.sites import MaterialAdminSite as site
 from rest_framework import permissions
 
 from users.views import PasswordResetConfirmView
-
-site.site_header = _('Administration')
-site.site_title = _('Marketplace')
-site.main_hover_color = '#969999'
-site.main_bg_color = '#41adda'
-
-site.favicon = staticfiles('admin/favicon.ico')
-site.profile_picture = staticfiles('admin/logo.jpg')
-site.profile_bg = staticfiles('admin/profile_bg.png')
-site.login_logo = staticfiles('admin/logo.jpg')
-site.logout_bg = staticfiles('admin/logout_bg.png')
 
 schema_view = get_schema_view(
    openapi.Info(
